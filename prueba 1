@@ -1,0 +1,59 @@
+<?php
+include "fpdf/fpdf.php";
+define('DB_HOST','localhost'); 
+    define('DB_USUARIO','root'); 
+    define('DB_CONTRASENA',''); 
+    define('DB_NOMBRE','wow'); 
+    define('DB_CHARSET','utf-8'); 
+class MIPDF extends FPDF
+{
+      public function Header()
+      {
+
+        $this->setFont("courier","B",14);
+        $this->cell(40);
+        $this->settextcolor(0,0,0);
+        $this->setFillcolor(255,255,255);
+        $this->cell(100,20,"REPORTE DE PERSONAJE",1,0,"C",true);
+        $this->Ln(30);
+        }
+		public function footer()
+		{
+		$this->sety(-20);
+		$this->cell(20);
+		$this->cell(120,10,"GEY_no:".$this->pageNo()."/{nb}",1,0);
+		
+		}
+}
+$TitulosR=array(
+"No.","especialidad","fuerte"
+);
+$mipdf=new MIPDF;
+$mipdf->AliasNBpages();
+$mipdf->addpage();
+$mipdf->setfont("Arial","B", 16);
+$mipdf->setFillcolor(255,255,255);
+for ($i=0; $i<count($TitulosR);$i++)
+	{
+	if($i==1){
+	$mipdf->cell(40,10,$TitulosR[$i],1,0,"C",true);
+	}
+else{
+	$mipdf->cell(40,10,$TitulosR[$i],1,0,"C",true);
+}	
+}
+$mipdf->Ln(10);
+/*$Consulta=mysql_query("SELECT * FROM especialidad");
+while($datos=mysql_fetch_array($Consulta))
+{
+	$id_venta=$datos['no_especialidad'];
+	$fecha=$datos['especialidad'];
+	$descuento=$datos['fuerte'];
+	
+	$mipdf->cell(40,10,$id_venta,1,0,"C",true);
+	$mipdf->cell(40,10,$fecha,1,0,"C",true);
+	$mipdf->cell(40,10,$descuento,1,0,"C",true);
+	$mipdf->Ln(10);
+}*/
+$mipdf->output();
+?>
